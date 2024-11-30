@@ -15,8 +15,11 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
+import db from "./db"
 
-export default function Page() {
+export default async function Page() {
+
+  const messages = await db.message.findMany()
 
   return (
     <SidebarProvider>
@@ -45,7 +48,7 @@ export default function Page() {
           <Chart />
           <div className="grid auto-rows-min gap-4 md:grid-cols-3">
             <div className="aspect-video rounded-xl bg-muted/50">
-              <Chat />
+              <Chat initialMessages={messages} />
             </div>
             <div className="aspect-video rounded-xl bg-muted/50" />
             <div className="aspect-video rounded-xl bg-muted/50" />

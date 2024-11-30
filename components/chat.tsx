@@ -2,10 +2,20 @@
 
 import { useChat } from 'ai/react';
 import { Input } from './ui/input';
+import { Message } from '@prisma/client';
 
-export default function Chat() {
+type MessageRole = 'system' | 'user' | 'assistant' | 'data';
+
+export default function Chat({ initialMessages }: { initialMessages: Message[] }) {
   const { messages, input, handleSubmit, handleInputChange, isLoading } =
-    useChat();
+    useChat({
+      initialMessages: initialMessages.map(message => ({
+        id: message.id,
+        content: message.content,
+        role: message.role as MessageRole,
+        createdAt: message.createdAt,
+      }))
+    });
 
   return (
     <div className="flex flex-col h-full max-w-3xl mx-auto p-4">
